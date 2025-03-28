@@ -314,14 +314,14 @@ with open(f"images/{name}_info.txt", "w", encoding="utf-8") as file:
 {color_2[0]} {color_2[1]} {color_2[2]}
 {color_3[0]} {color_3[1]} {color_3[2]}
 {n1_n} {n1_i} {n2_n} {n2_i}
-{const_n}, {const_i}
+{const_n} {const_i}
 {t1_n} {t1_i} {t2_n} {t2_i} {t3_n} {t3_i}
 {sim_degree_n} {sim_degree_i} {sim_factor_n} {sim_factor_i} {sim_sum_n} {sim_sum_i}
 {cos_degree_n} {cos_degree_i} {cos_factor_n} {cos_factor_i} {cos_sum_n} {cos_sum_i}
 {end}
 {max_iter}
 {zoom}
-{shift_x}, {shift_y}
+{shift_x} {shift_y}
 {if_i}
 {himit1_n} {himit1_i} {himit2_n} {himit2_i} {himit3_n} {himit3_i}
 {if_mod_1} {if_mod_2} {if_mod_3} {if_mod_4}
