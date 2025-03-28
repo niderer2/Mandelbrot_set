@@ -2,26 +2,29 @@
 chcp 65001 >nul
 SETLOCAL ENABLEDELAYEDEXPANSION
 
-:: Проверяем, установлен ли Python
+:: Проверка наличия Python
 python --version >nul 2>&1
-IF %ERRORLEVEL% NEQ 0 (
-    echo Python не найден. Устанавливаем...
-    powershell -Command "Start-Process -Verb RunAs -FilePath msiexec.exe -ArgumentList '/i https://www.python.org/ftp/python/3.11.5/python-3.11.5-amd64.exe /quiet InstallAllUsers=1 PrependPath=1' -Wait"
+if %errorlevel% neq 0 (
+    echo Python не найден. Установка...
+    curl -o python_installer.exe https://www.python.org/ftp/python/3.12.2/python-3.12.2-amd64.exe
+    start /wait python_installer.exe /quiet InstallAllUsers=1 PrependPath=1
+    del python_installer.exe
+    echo Python установлен.
 )
 
-:: Обновляем PATH (чтобы найти pip)
-set "PATH=%PATH%;C:\Program Files\Python311;C:\Program Files\Python311\Scripts"
+:: Список необходимых библиотек
+set LIBS=matplotlib numba numpy pillow tqdm
 
-:: Проверяем, установлен ли pip
-pip --version >nul 2>&1
-IF %ERRORLEVEL% NEQ 0 (
-    echo Устанавливаем pip...
-    python -m ensurepip --default-pip
+:: Установка отсутствующих библиотек
+for %%i in (%LIBS%) do (
+    python -c "import %%i" >nul 2>&1
+    if %errorlevel% neq 0 (
+        echo Установка %%i...
+        python -m pip install %%i
+    ) else (
+        echo %%i уже установлен.
+    )
 )
 
-:: Устанавливаем библиотеки
-pip install --upgrade pip
-pip install pillow numba
-
-echo Установка завершена.
+echo Все необходимые библиотеки установлены.
 pause
