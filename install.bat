@@ -17,14 +17,24 @@ set LIBS=matplotlib numba numpy pillow tqdm
 
 :: Установка отсутствующих библиотек
 for %%i in (%LIBS%) do (
-    python -c "import %%i" >nul 2>&1
-    if %errorlevel% neq 0 (
-        echo Установка %%i...
-        python -m pip install %%i
-    ) else (
-        echo %%i уже установлен.
-    )
+    call :CHECK_LIB %%i
 )
+
+echo Все необходимые библиотеки установлены.
+pause
+exit /b
+
+:CHECK_LIB
+set "LIB=%~1"
+python -c "import %LIB%" >nul 2>&1
+if errorlevel 1 (
+    echo Установка %LIB%...
+    python -m pip install %LIB%
+) else (
+    echo %LIB% уже установлен.
+)
+exit /b
+
 
 echo Все необходимые библиотеки установлены.
 pause
