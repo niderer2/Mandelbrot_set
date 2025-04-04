@@ -284,7 +284,7 @@ for iy in tqdm(range(height)):
     mem_img = prisw(mem_img, w, iy, width)
     if width > 1000 or height > 1000:
         full_img = Image.fromarray(np.array(mem_img))
-        display_img = full_img.resize((display_width, display_height), Image.ANTIALIAS)
+        display_img = full_img.resize((display_width, display_height), Image.Resampling.LANCZOS)
         display_data = np.array(display_img)
     else:
         display_data = np.array(mem_img)
